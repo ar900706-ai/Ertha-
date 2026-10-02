@@ -1003,6 +1003,17 @@ document.getElementById("searchInput")
 
 renderProperties();
 
+</script> 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const ERTHA_SUPABASE_URL = "https://ezpzqiovggovrisqrzer.supabase.co";
+const ERTHA_SUPABASE_KEY = "sb_publishable_NVK0-P5hYwl4CJa7TJ7jRw_C8y8l85U";
+
+const erthaSupabase = window.supabase.createClient(
+  ERTHA_SUPABASE_URL,
+  ERTHA_SUPABASE_KEY
+);
 </script>
 
 </body>
