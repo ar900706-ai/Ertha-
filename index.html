@@ -1,437 +1,1007 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ertha | إرثا</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ertha | عقار إرثا</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      background: #f6f7f9;
-      color: #222;
-    }
+body{
+  font-family:Arial,Tahoma,sans-serif;
+  background:#f4f6f8;
+  color:#17212b;
+  padding-bottom:80px;
+}
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+header{
+  background:#10283c;
+  color:white;
+  padding:18px 18px 22px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 3px 15px rgba(0,0,0,.15);
+}
 
-    .header-content {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
 
-    .logo {
-      font-size: 28px;
-      font-weight: bold;
-    }
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-    .logo span {
-      color: #d4a017;
-    }
+.logoIcon{
+  width:48px;
+  height:48px;
+  border:3px solid #e7bd67;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
 
-    .hero {
-      background: linear-gradient(135deg, #111827, #26364d);
-      color: white;
-      padding: 55px 20px;
-      text-align: center;
-    }
+.logoText b{
+  display:block;
+  color:#f0c96d;
+  font-size:22px;
+}
 
-    .hero h1 {
-      font-size: 38px;
-      margin-bottom: 12px;
-    }
+.logoText span{
+  font-size:10px;
+  letter-spacing:2px;
+}
 
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 25px;
-      color: #ddd;
-    }
+.headerBtns{
+  display:flex;
+  gap:8px;
+}
 
-    .search-box {
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 10px;
-      border-radius: 12px;
-      display: flex;
-      gap: 10px;
-    }
+.iconBtn{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:12px;
+  background:#19384f;
+  color:white;
+  font-size:20px;
+}
 
-    .search-box input {
-      flex: 1;
-      border: none;
-      outline: none;
-      padding: 14px;
-      font-size: 16px;
-      color: #222;
-    }
+.hero{
+  margin-top:18px;
+}
 
-    .search-box button {
-      background: #d4a017;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 0 22px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.hero h1{
+  font-size:25px;
+  margin-bottom:7px;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
+.hero p{
+  color:#d6e0e7;
+  font-size:13px;
+}
 
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+.search{
+  margin-top:16px;
+  background:white;
+  border-radius:14px;
+  padding:6px;
+  display:flex;
+  gap:6px;
+}
 
-    .section-title h2 {
-      font-size: 25px;
-    }
+.search input{
+  flex:1;
+  border:0;
+  outline:0;
+  padding:12px;
+  font-size:14px;
+  background:white;
+}
 
-    .properties {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
+.search button{
+  border:0;
+  background:#e8bd67;
+  color:#142a3b;
+  border-radius:11px;
+  padding:0 17px;
+  font-weight:bold;
+}
 
-    .property {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
+.container{
+  width:min(1100px,94%);
+  margin:auto;
+}
 
-    .property-image {
-      height: 180px;
-      background: linear-gradient(135deg, #ddd, #aaa);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      font-size: 45px;
-    }
+.categories{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin:16px 0;
+}
 
-    .property-info {
-      padding: 18px;
-    }
+.cat{
+  border:0;
+  background:white;
+  border-radius:13px;
+  padding:13px 5px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  color:#24394b;
+  font-size:12px;
+}
 
-    .property-info h3 {
-      margin-bottom: 8px;
-      font-size: 20px;
-    }
+.cat .emoji{
+  display:block;
+  font-size:22px;
+  margin-bottom:5px;
+}
 
-    .location {
-      color: #777;
-      margin-bottom: 12px;
-    }
+.sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:22px 0 12px;
+}
 
-    .price {
-      color: #b8860b;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
+.sectionTitle h2{
+  font-size:19px;
+}
 
-    .details {
-      display: flex;
-      justify-content: space-between;
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
+.sectionTitle button{
+  border:0;
+  background:none;
+  color:#a57a24;
+  font-weight:bold;
+}
 
-    .contact {
-      width: 100%;
-      padding: 12px;
-      background: #111827;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
-    }
+.banner{
+  background:linear-gradient(135deg,#10283c,#254d68);
+  color:white;
+  border-radius:18px;
+  padding:20px;
+  margin-top:18px;
+  overflow:hidden;
+}
 
-    .add-property {
-      margin-top: 35px;
-      background: white;
-      padding: 25px;
-      border-radius: 14px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    }
+.banner h2{
+  color:#f1c86d;
+  margin-bottom:7px;
+}
 
-    .add-property h2 {
-      margin-bottom: 20px;
-    }
+.banner p{
+  font-size:13px;
+  line-height:1.8;
+}
 
-    .form {
-      display: grid;
-      gap: 12px;
-    }
+.banner button{
+  margin-top:12px;
+  border:0;
+  background:#e9bf69;
+  color:#10283c;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:bold;
+}
 
-    .form input,
-    .form select {
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 15px;
-    }
+.properties{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
 
-    .form button {
-      padding: 13px;
-      border: none;
-      border-radius: 8px;
-      background: #d4a017;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
 
-    footer {
-      margin-top: 50px;
-      background: #111827;
-      color: white;
-      text-align: center;
-      padding: 25px;
-    }
+.cardImage{
+  height:155px;
+  background-size:cover;
+  background-position:center;
+  position:relative;
+}
 
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 30px;
-      }
+.badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#e8bd67;
+  color:#142a3b;
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:bold;
+}
 
-      .search-box {
-        flex-direction: column;
-      }
+.heart{
+  position:absolute;
+  top:9px;
+  left:9px;
+  width:34px;
+  height:34px;
+  border:0;
+  border-radius:50%;
+  background:white;
+  font-size:18px;
+}
 
-      .search-box button {
-        padding: 13px;
-      }
-    }
-  </style>
+.cardBody{
+  padding:12px;
+}
+
+.cardBody h3{
+  font-size:15px;
+  margin-bottom:7px;
+}
+
+.location{
+  color:#687985;
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.price{
+  color:#a47820;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.details{
+  display:flex;
+  gap:10px;
+  color:#61717c;
+  font-size:11px;
+  margin:9px 0;
+}
+
+.cardBtn{
+  width:100%;
+  border:0;
+  background:#10283c;
+  color:white;
+  padding:9px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.addBox{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.formGroup{
+  margin-bottom:12px;
+}
+
+.formGroup label{
+  display:block;
+  font-size:12px;
+  margin-bottom:5px;
+  color:#53636e;
+}
+
+.formGroup input,
+.formGroup select{
+  width:100%;
+  padding:11px;
+  border:1px solid #d9e0e5;
+  border-radius:9px;
+  outline:0;
+}
+
+.primary{
+  width:100%;
+  border:0;
+  background:#10283c;
+  color:white;
+  padding:13px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.assistant{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.assistantHeader{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.bot{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:#10283c;
+  color:#eac16b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
+
+.question{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.question button{
+  border:1px solid #dbe1e5;
+  background:#f7f9fa;
+  border-radius:9px;
+  padding:8px 10px;
+  font-size:11px;
+}
+
+footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:67px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:30;
+}
+
+.navItem{
+  border:0;
+  background:none;
+  color:#697782;
+  font-size:10px;
+}
+
+.navItem span{
+  display:block;
+  font-size:21px;
+  margin-bottom:2px;
+}
+
+.navItem.active{
+  color:#a47720;
+  font-weight:bold;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:50;
+  padding:25px 15px;
+  overflow:auto;
+}
+
+.modalBox{
+  background:white;
+  border-radius:20px;
+  max-width:600px;
+  margin:auto;
+  overflow:hidden;
+}
+
+.modalImg{
+  height:220px;
+  background-size:cover;
+  background-position:center;
+}
+
+.modalContent{
+  padding:20px;
+}
+
+.close{
+  float:left;
+  border:0;
+  background:#eee;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:20px;
+}
+
+.toast{
+  position:fixed;
+  bottom:85px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#10283c;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  display:none;
+  z-index:100;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  .categories{
+    grid-template-columns:repeat(5,1fr);
+  }
+
+  .properties{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .cardImage{
+    height:130px;
+  }
+
+  .hero h1{
+    font-size:22px;
+  }
+}
+
+@media(min-width:800px){
+  .properties{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-content">
-    <div class="logo">Ertha<span>•</span></div>
-    <div>منصة العقارات</div>
+  <div class="top">
+
+    <div class="logo">
+      <div class="logoIcon">⌂</div>
+      <div class="logoText">
+        <b>عقار إرثا</b>
+        <span>AQAR ERTHA</span>
+      </div>
+    </div>
+
+    <div class="headerBtns">
+      <button class="iconBtn" onclick="showToast('سيتم تفعيل الإشعارات قريباً')">🔔</button>
+      <button class="iconBtn" onclick="showToast('أهلاً بك في إرثا')">👤</button>
+    </div>
+
+  </div>
+
+  <div class="hero">
+    <h1>ابحث عن عقارك بسهولة</h1>
+    <p>كل ما تحتاجه في مكان واحد</p>
+  </div>
+
+  <div class="search">
+    <input id="searchInput" placeholder="ابحث عن منزل، شقة، أرض...">
+    <button onclick="searchProperties()">بحث</button>
   </div>
 </header>
 
-<section class="hero">
-  <h1>ابحث عن عقارك مع Ertha</h1>
-  <p>منصة عراقية لعرض وبيع وشراء العقارات</p>
+<main class="container">
 
-  <div class="search-box">
-    <input id="searchInput" type="text" placeholder="ابحث عن منطقة أو نوع العقار">
-    <button onclick="searchProperties()">بحث</button>
+  <div class="categories">
+
+    <button class="cat" onclick="filterType('للبيع')">
+      <span class="emoji">🏠</span>
+      شراء
+    </button>
+
+    <button class="cat" onclick="filterType('للبيع')">
+      <span class="emoji">🏷️</span>
+      بيع
+    </button>
+
+    <button class="cat" onclick="filterType('للإيجار')">
+      <span class="emoji">🔑</span>
+      إيجار
+    </button>
+
+    <button class="cat" onclick="filterType('أرض')">
+      <span class="emoji">📍</span>
+      أراضي
+    </button>
+
+    <button class="cat" onclick="showToast('قسم المشاريع قريباً')">
+      <span class="emoji">🏢</span>
+      مشاريع
+    </button>
+
   </div>
-</section>
 
-<div class="container">
-
-  <div class="section-title">
-    <h2>العقارات المميزة</h2>
+  <div class="banner">
+    <h2>عقارك يبدأ من إرثا</h2>
+    <p>
+      منصة عقارية تساعدك على العثور على العقار المناسب
+      للبيع والشراء والإيجار في كربلاء.
+    </p>
+    <button onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">
+      أضف عقارك الآن
+    </button>
   </div>
 
-  <div class="properties" id="properties">
+  <div class="sectionTitle">
+    <h2>عقارات مميزة</h2>
+    <button onclick="resetProperties()">عرض الكل</button>
+  </div>
 
-    <div class="property">
-      <div class="property-image">🏠</div>
+  <section class="properties" id="properties"></section>
 
-      <div class="property-info">
-        <h3>دار سكنية</h3>
-        <div class="location">📍 كربلاء - حي الحسين</div>
-        <div class="price">280 مليون د.ع</div>
+  <div class="sectionTitle">
+    <h2>المساعد العقاري 🤖</h2>
+  </div>
 
-        <div class="details">
-          <span>🛏 4 غرف</span>
-          <span>📐 200 م²</span>
-        </div>
+  <div class="assistant">
 
-        <button class="contact" onclick="contactOwner()">
-          تواصل مع المعلن
-        </button>
+    <div class="assistantHeader">
+      <div class="bot">🤖</div>
+      <div>
+        <h3>مساعد إرثا</h3>
+        <p style="font-size:12px;color:#71808a">
+          اسألني عن البحث عن العقار
+        </p>
       </div>
     </div>
 
-    <div class="property">
-      <div class="property-image">🏢</div>
-
-      <div class="property-info">
-        <h3>عقار تجاري</h3>
-        <div class="location">📍 كربلاء</div>
-        <div class="price">350 مليون د.ع</div>
-
-        <div class="details">
-          <span>🏪 تجاري</span>
-          <span>📐 180 م²</span>
-        </div>
-
-        <button class="contact" onclick="contactOwner()">
-          تواصل مع المعلن
-        </button>
-      </div>
-    </div>
-
-    <div class="property">
-      <div class="property-image">🏡</div>
-
-      <div class="property-info">
-        <h3>بيت للبيع</h3>
-        <div class="location">📍 كربلاء - حي النصر</div>
-        <div class="price">250 مليون د.ع</div>
-
-        <div class="details">
-          <span>🛏 3 غرف</span>
-          <span>📐 150 م²</span>
-        </div>
-
-        <button class="contact" onclick="contactOwner()">
-          تواصل مع المعلن
-        </button>
-      </div>
+    <div class="question">
+      <button onclick="assistantAnswer('أريد بيتاً في كربلاء')">أريد بيتاً في كربلاء</button>
+      <button onclick="assistantAnswer('أريد شقة')">أريد شقة</button>
+      <button onclick="assistantAnswer('أريد أرضاً')">أريد أرضاً</button>
+      <button onclick="assistantAnswer('أريد عقاراً للاستثمار')">أريد للاستثمار</button>
     </div>
 
   </div>
 
-  <div class="add-property">
+  <div id="add" class="sectionTitle">
     <h2>أضف عقارك</h2>
+  </div>
 
-    <div class="form">
-      <input id="propertyName" type="text" placeholder="اسم العقار">
+  <div class="addBox">
 
-      <input id="propertyLocation" type="text" placeholder="الموقع">
+    <div class="formGroup">
+      <label>اسم العقار</label>
+      <input id="propertyName" placeholder="مثلاً: بيت سكني">
+    </div>
 
-      <input id="propertyPrice" type="text" placeholder="السعر">
+    <div class="formGroup">
+      <label>الموقع</label>
+      <input id="propertyLocation" placeholder="مثلاً: كربلاء - حي الحسين">
+    </div>
 
+    <div class="formGroup">
+      <label>السعر</label>
+      <input id="propertyPrice" placeholder="مثلاً: 250 مليون">
+    </div>
+
+    <div class="formGroup">
+      <label>نوع العقار</label>
       <select id="propertyType">
-        <option value="">نوع العقار</option>
-        <option>دار سكنية</option>
+        <option>بيت</option>
         <option>شقة</option>
         <option>أرض</option>
-        <option>عقار تجاري</option>
-        <option>محل</option>
+        <option>محل تجاري</option>
+        <option>مشروع</option>
       </select>
-
-      <button onclick="addProperty()">
-        نشر العقار
-      </button>
     </div>
+
+    <button class="primary" onclick="addProperty()">
+      ➕ إضافة العقار
+    </button>
+
+  </div>
+
+  <div class="sectionTitle">
+    <h2>لماذا إرثا؟</h2>
+  </div>
+
+  <div class="assistant">
+    <p style="line-height:2;font-size:13px">
+      ✅ عقارات منظمة وسهلة البحث<br>
+      ✅ معلومات واضحة عن العقار<br>
+      ✅ مساعدة في اختيار العقار<br>
+      ✅ تصميم مناسب للموبايل<br>
+      ✅ قابل للتوسع ليشمل جميع العراق
+    </p>
+  </div>
+
+</main>
+
+<footer>
+
+  <button class="navItem active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span>⌂</span>
+    الرئيسية
+  </button>
+
+  <button class="navItem" onclick="document.getElementById('properties').scrollIntoView({behavior:'smooth'})">
+    <span>🔎</span>
+    البحث
+  </button>
+
+  <button class="navItem" onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">
+    <span>➕</span>
+    إضافة
+  </button>
+
+  <button class="navItem" onclick="showFavorites()">
+    <span>❤️</span>
+    المفضلة
+  </button>
+
+  <button class="navItem" onclick="showToast('الحساب سيتم ربطه قريباً')">
+    <span>👤</span>
+    حسابي
+  </button>
+
+</footer>
+
+<div class="modal" id="modal">
+
+  <div class="modalBox">
+
+    <div class="modalImg" id="modalImg"></div>
+
+    <div class="modalContent">
+
+      <button class="close" onclick="closeModal()">×</button>
+
+      <h2 id="modalTitle"></h2>
+
+      <p id="modalLocation" class="location" style="margin-top:10px"></p>
+
+      <div id="modalPrice" class="price"></div>
+
+      <p id="modalDetails" style="margin-top:15px;line-height:1.9;font-size:13px"></p>
+
+      <button class="primary" style="margin-top:18px"
+        onclick="contactOwner()">
+        📞 تواصل مع المعلن
+      </button>
+
+    </div>
+
   </div>
 
 </div>
 
-<footer>
-  <div>© 2026 Ertha</div>
-  <div>منصة عقارية عراقية</div>
-</footer>
+<div class="toast" id="toast"></div>
 
 <script>
 
-function contactOwner() {
-  alert("سيتم إضافة نظام التواصل مع المعلن قريباً.");
+const properties = [
+
+  {
+    name:"منزل سكني فاخر",
+    location:"كربلاء - حي الحسين",
+    price:"250 مليون",
+    type:"للبيع",
+    details:"منزل سكني بموقع مميز، مناسب للعائلة وقريب من الخدمات.",
+    image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+    favorite:false
+  },
+
+  {
+    name:"بيت عائلي حديث",
+    location:"كربلاء - حي النصر",
+    price:"300 مليون",
+    type:"للبيع",
+    details:"بيت حديث بتصميم جميل ومساحة مناسبة للسكن العائلي.",
+    image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80",
+    favorite:false
+  },
+
+  {
+    name:"شقة سكنية",
+    location:"كربلاء - مركز المدينة",
+    price:"180 مليون",
+    type:"للبيع",
+    details:"شقة سكنية قريبة من الأسواق والخدمات.",
+    image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+    favorite:false
+  },
+
+  {
+    name:"أرض سكنية",
+    location:"كربلاء - حي جديد",
+    price:"120 مليون",
+    type:"أرض",
+    details:"قطعة أرض مناسبة للبناء والاستثمار.",
+    image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
+    favorite:false
+  },
+
+  {
+    name:"محل تجاري",
+    location:"كربلاء - شارع تجاري",
+    price:"350 مليون",
+    type:"للبيع",
+    details:"عقار تجاري مناسب لمشروع مطعم أو متجر.",
+    image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80",
+    favorite:false
+  },
+
+  {
+    name:"شقة للإيجار",
+    location:"كربلاء",
+    price:"750 ألف شهرياً",
+    type:"للإيجار",
+    details:"شقة مرتبة وجاهزة للسكن.",
+    image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80",
+    favorite:false
+  }
+
+];
+
+let currentProperties=[...properties];
+
+function renderProperties(list=currentProperties){
+
+  const container=document.getElementById("properties");
+
+  if(!list.length){
+
+    container.innerHTML=`
+      <div style="grid-column:1/-1;background:white;padding:25px;border-radius:15px;text-align:center">
+        لا توجد عقارات مطابقة للبحث.
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML="";
+
+  list.forEach((p,index)=>{
+
+    const card=document.createElement("div");
+    card.className="card";
+
+    card.innerHTML=`
+
+      <div class="cardImage"
+        style="background-image:url('${p.image}')">
+
+        <div class="badge">${p.type}</div>
+
+        <button class="heart"
+          onclick="toggleFavorite(${index})">
+          ${p.favorite ? "❤️":"♡"}
+        </button>
+
+      </div>
+
+      <div class="cardBody">
+
+        <h3>${p.name}</h3>
+
+        <div class="location">
+          📍 ${p.location}
+        </div>
+
+        <div class="price">
+          ${p.price}
+        </div>
+
+        <div class="details">
+          <span>🏠 ${p.type}</span>
+          <span>✓ موثوق</span>
+        </div>
+
+        <button class="cardBtn"
+          onclick="openProperty(${index})">
+          تفاصيل العقار
+        </button>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+
+  });
+
 }
 
-function searchProperties() {
+function openProperty(index){
 
-  const search = document
-    .getElementById("searchInput")
+  const p=currentProperties[index];
+
+  document.getElementById("modalImg").style.backgroundImage=
+    `url('${p.image}')`;
+
+  document.getElementById("modalTitle").innerText=p.name;
+  document.getElementById("modalLocation").innerText="📍 "+p.location;
+  document.getElementById("modalPrice").innerText=p.price;
+  document.getElementById("modalDetails").innerText=p.details;
+
+  document.getElementById("modal").style.display="block";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+function contactOwner(){
+  showToast("سيتم تفعيل التواصل المباشر مع المعلن قريباً");
+}
+
+function toggleFavorite(index){
+
+  currentProperties[index].favorite=
+    !currentProperties[index].favorite;
+
+  renderProperties(currentProperties);
+
+  showToast(
+    currentProperties[index].favorite
+    ? "تمت إضافة العقار للمفضلة ❤️"
+    : "تمت إزالة العقار من المفضلة"
+  );
+}
+
+function showFavorites(){
+
+  const fav=currentProperties.filter(p=>p.favorite);
+
+  if(!fav.length){
+    showToast("لا توجد عقارات في المفضلة حالياً");
+    return;
+  }
+
+  renderProperties(fav);
+
+  document.getElementById("properties")
+    .scrollIntoView({behavior:"smooth"});
+}
+
+function searchProperties(){
+
+  const q=document.getElementById("searchInput")
     .value
     .trim()
     .toLowerCase();
 
-  const properties =
-    document.querySelectorAll(".property");
+  if(!q){
+    currentProperties=[...properties];
+  }else{
 
-  properties.forEach(property => {
+    currentProperties=properties.filter(p=>
+      p.name.toLowerCase().includes(q) ||
+      p.location.toLowerCase().includes(q) ||
+      p.type.toLowerCase().includes(q)
+    );
 
-    const text =
-      property.innerText.toLowerCase();
+  }
 
-    if (text.includes(search)) {
-      property.style.display = "block";
-    } else {
-      property.style.display = "none";
-    }
+  renderProperties(currentProperties);
 
-  });
+  document.getElementById("properties")
+    .scrollIntoView({behavior:"smooth"});
 }
 
-function addProperty() {
+function filterType(type){
 
-  const name =
-    document.getElementById("propertyName").value;
+  if(type==="للبيع"){
+    currentProperties=properties.filter(p=>p.type==="للبيع");
+  }else if(type==="للإيجار"){
+    currentProperties=properties.filter(p=>p.type==="للإيجار");
+  }else{
+    currentProperties=properties.filter(p=>p.type==="أرض");
+  }
 
-  const location =
-    document.getElementById("propertyLocation").value;
+  renderProperties(currentProperties);
 
-  const price =
-    document.getElementById("propertyPrice").value;
+  document.getElementById("properties")
+    .scrollIntoView({behavior:"smooth"});
+}
 
-  const type =
-    document.getElementById("propertyType").value;
+function resetProperties(){
 
-  if (!name || !location || !price || !type) {
-    alert("يرجى ملء جميع المعلومات.");
+  currentProperties=[...properties];
+  renderProperties(currentProperties);
+
+}
+
+function addProperty(){
+
+  const name=document.getElementById("propertyName").value.trim();
+  const location=document.getElementById("propertyLocation").value.trim();
+  const price=document.getElementById("propertyPrice").value.trim();
+  const type=document.getElementById("propertyType").value;
+
+  if(!name || !location || !price){
+
+    showToast("يرجى ملء معلومات العقار");
     return;
   }
 
-  const property =
-    document.createElement("div");
+  const newProperty={
 
-  property.className = "property";
+    name:name,
+    location:location,
+    price:price,
+    type:"للبيع",
+    details:`${type} جديد مضاف بواسطة المستخدم.`,
+    image:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80",
+    favorite:false
 
-  property.innerHTML = `
-    <div class="property-image">🏠</div>
+  };
 
-    <div class="property-info">
-      <h3>${name}</h3>
-      <div class="location">📍 ${location}</div>
-      <div class="price">${price}</div>
+  properties.unshift(newProperty);
+  currentProperties=[...properties];
 
-      <div class="details">
-        <span>${type}</span>
-      </div>
+  renderProperties(currentProperties);
 
-      <button class="contact" onclick="contactOwner()">
-        تواصل مع المعلن
-      </button>
-    </div>
-  `;
+  document.getElementById("propertyName").value="";
+  document.getElementById("propertyLocation").value="";
+  document.getElementById("propertyPrice").value="";
 
-  document
-    .getElementById("properties")
-    .appendChild(property);
+  showToast("تمت إضافة العقار بنجاح ✅");
 
-  document.getElementById("propertyName").value = "";
-  document.getElementById("propertyLocation").value = "";
-  document.getElementById("propertyPrice").value = "";
-  document.getElementById("propertyType").value = "";
-
-  alert("تمت إضافة العقار بنجاح.");
+  document.getElementById("properties")
+    .scrollIntoView({behavior:"smooth"});
 }
+
+function assistantAnswer(question){
+
+  let answer="";
+
+  if(question.includes("بيت")){
+    answer="ممتاز. استخدم البحث وحدد المنطقة والسعر المناسب لك، وسنضيف لاحقاً فلترة ذكية حسب ميزانيتك.";
+  }else if(question.includes("شقة")){
+    answer="لدينا شقق ضمن العقارات التجريبية حالياً، ويمكن لاحقاً ربطها بقاعدة بيانات حقيقية.";
+  }else if(question.includes("أرض")){
+    answer="يوجد قسم خاص بالأراضي، ويمكن البحث حسب المنطقة والمساحة والسعر.";
+  }else{
+    answer="يمكنني مساعدتك في البحث عن عقار مناسب للاستثمار.";
+  }
+
+  showToast(answer);
+
+}
+
+function showToast(message){
+
+  const toast=document.getElementById("toast");
+
+  toast.innerText=message;
+  toast.style.display="block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    toast.style.display="none";
+  },3000);
+
+}
+
+document.getElementById("searchInput")
+  .addEventListener("keydown",function(e){
+
+    if(e.key==="Enter"){
+      searchProperties();
+    }
+
+  });
+
+renderProperties();
 
 </script>
 
