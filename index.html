@@ -753,7 +753,9 @@ footer{
     </button>
 
     <p id="accountMessage"></p>
-
+<button onclick="logoutUser()">
+  🚪 تسجيل الخروج
+</button>
   </div>
 
 </div>
@@ -1211,6 +1213,28 @@ const erthaSupabase = window.supabase.createClient(
   ERTHA_SUPABASE_KEY
 );
 </script>
+<script>
 
+async function logoutUser(){
+
+  const { error } =
+    await erthaSupabase.auth.signOut();
+
+  const message =
+    document.getElementById("accountMessage");
+
+  if(error){
+
+    message.innerText =
+      error.message;
+
+    return;
+  }
+
+  message.innerText =
+    "تم تسجيل الخروج بنجاح ✅";
+}
+
+</script>
 </body>
 </html>
