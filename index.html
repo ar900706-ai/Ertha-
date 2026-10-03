@@ -846,6 +846,13 @@ function toggleFavorite(index){
   currentProperties[index].favorite =
 
     !currentProperties[index].favorite;
+  localStorage.setItem(
+
+  "erthaFavorites",
+
+  JSON.stringify(properties)
+
+);
 
   renderProperties(currentProperties);
 
@@ -1002,6 +1009,7 @@ document.getElementById("searchInput")
 
     if(e.key==="Enter"){
       searchProperties();
+
     }
 
   });
