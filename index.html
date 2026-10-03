@@ -1126,7 +1126,82 @@ renderProperties();
 
 </script> 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 
+async function signupUser(){
+
+  const email =
+    document.getElementById("accountEmail").value.trim();
+
+  const password =
+    document.getElementById("accountPassword").value;
+
+  const message =
+    document.getElementById("accountMessage");
+
+  if(!email || !password){
+
+    message.innerText =
+      "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+
+    return;
+  }
+
+  const { error } =
+    await erthaSupabase.auth.signUp({
+      email: email,
+      password: password
+    });
+
+  if(error){
+
+    message.innerText = error.message;
+
+    return;
+  }
+
+  message.innerText =
+    "تم إنشاء الحساب بنجاح ✅";
+}
+
+
+async function loginUser(){
+
+  const email =
+    document.getElementById("accountEmail").value.trim();
+
+  const password =
+    document.getElementById("accountPassword").value;
+
+  const message =
+    document.getElementById("accountMessage");
+
+  if(!email || !password){
+
+    message.innerText =
+      "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+
+    return;
+  }
+
+  const { error } =
+    await erthaSupabase.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  if(error){
+
+    message.innerText = error.message;
+
+    return;
+  }
+
+  message.innerText =
+    "تم تسجيل الدخول بنجاح ✅";
+}
+
+</script>
 <script>
 const ERTHA_SUPABASE_URL = "https://ezpzqiovggovrisqrzer.supabase.co";
 const ERTHA_SUPABASE_KEY = "sb_publishable_NVK0-P5hYwl4CJa7TJ7jRw_C8y8l85U";
