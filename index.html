@@ -843,26 +843,31 @@ function contactOwner(){
 }
 
 function toggleFavorite(index){
+  currentProperties[index].favorite =
 
-  currentProperties[index].favorite=
     !currentProperties[index].favorite;
 
   renderProperties(currentProperties);
 
   showToast(
-    currentProperties[index].favorite
-    ? "تمت إضافة العقار للمفضلة ❤️"
-    : "تمت إزالة العقار من المفضلة"
-  );
-}
 
-function showFavorites(){
+    currentProperties[index].favorite
+
+      ? "تمت إضافة العقار للمفضلة ❤️"
+
+      : "تمت إزالة العقار من المفضلة"
+
+  );
+
+}
+  function showFavorites(){
 
   const fav=currentProperties.filter(p=>p.favorite);
 
   if(!fav.length){
     showToast("لا توجد عقارات في المفضلة حالياً");
     return;
+    currentProperties[index].favorite
   }
 
   renderProperties(fav);
