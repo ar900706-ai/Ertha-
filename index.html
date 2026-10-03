@@ -1014,6 +1014,29 @@ document.getElementById("searchInput")
 
   });
 
+  const savedFavorites =
+
+  JSON.parse(localStorage.getItem("erthaFavorites") || "[]");
+
+savedFavorites.forEach(saved => {
+
+  const property = properties.find(p =>
+
+    p.name === saved.name &&
+
+    p.location === saved.location &&
+
+    p.price === saved.price
+
+  );
+
+  if(property){
+
+    property.favorite = saved.favorite;
+
+  }
+
+});
 renderProperties();
 
 </script> 
