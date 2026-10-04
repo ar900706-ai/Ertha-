@@ -862,16 +862,20 @@ signupButton.style.display = "none";
     document.getElementById("logoutButton").style.display = "block";
 
   }else{
+}else{
 
-    status.innerText =
-      "تسجيل الدخول إلى حساب إرثا";
+  status.innerText =
+    "تسجيل الدخول إلى حساب إرثا";
 
-    email.style.display = "block";
-    password.style.display = "block";
+  email.style.display = "block";
+  password.style.display = "block";
 
-    document.getElementById("logoutButton").style.display = "none";
+  loginButton.style.display = "block";
+  signupButton.style.display = "block";
 
-  }
+  document.getElementById("logoutButton").style.display = "none";
+
+}
 
 }
 
