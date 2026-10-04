@@ -1013,7 +1013,7 @@ function toggleFavorite(index){
   if(!fav.length){
     showToast("لا توجد عقارات في المفضلة حالياً");
     return;
-    currentProperties[index].favorite
+
   }
 
   renderProperties(fav);
@@ -1070,12 +1070,19 @@ function resetProperties(){
 
 }
 
-function addProperty(){
+async function addProperty(){
 
-  const name=document.getElementById("propertyName").value.trim();
-  const location=document.getElementById("propertyLocation").value.trim();
-  const price=document.getElementById("propertyPrice").value.trim();
-  const type=document.getElementById("propertyType").value;
+  const name =
+    document.getElementById("propertyName").value.trim();
+
+  const location =
+    document.getElementById("propertyLocation").value.trim();
+
+  const price =
+    document.getElementById("propertyPrice").value.trim();
+
+  const type =
+    document.getElementById("propertyType").value;
 
   if(!name || !location || !price){
 
@@ -1083,20 +1090,58 @@ function addProperty(){
     return;
   }
 
-  const newProperty={
+  const { data: { user } } =
+    await erthaSupabase.auth.getUser();
 
-    name:name,
-    location:location,
-    price:price,
-    type:"للبيع",
-    details:`${type} جديد مضاف بواسطة المستخدم.`,
-    image:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80",
+  if(!user){
+
+    showToast("يجب تسجيل الدخول أولاً لإضافة عقار 🔐");
+    return;
+  }
+
+  const { data, error } =
+    await erthaSupabase
+      .from("properties")
+      .insert([
+
+        {
+          name: name,
+          location: location,
+          price: price,
+          type: "للبيع",
+          details: `${type} جديد مضاف بواسطة المستخدم.`,
+          image:
+            "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80",
+          owner_id: user.id
+        }
+
+      ])
+      .select()
+      .single();
+
+  if(error){
+
+    console.error(error);
+
+    showToast(
+      "حدث خطأ أثناء إضافة العقار: " +
+      error.message
+    );
+
+    return;
+  }
+
+  const newProperty = {
+
+    ...data,
+
     favorite:false
 
   };
 
   properties.unshift(newProperty);
-  currentProperties=[...properties];
+
+  currentProperties = [...properties];
 
   renderProperties(currentProperties);
 
@@ -1104,14 +1149,12 @@ function addProperty(){
   document.getElementById("propertyLocation").value="";
   document.getElementById("propertyPrice").value="";
 
-  showToast("تمت إضافة العقار بنجاح ✅");
+  showToast("تم حفظ العقار في إرثا بنجاح ✅");
 
   document.getElementById("properties")
     .scrollIntoView({behavior:"smooth"});
 }
-
 function assistantAnswer(question){
-
   let answer="";
 
   if(question.includes("بيت")){
