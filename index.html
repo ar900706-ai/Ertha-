@@ -829,12 +829,23 @@ const properties = [
   }
 
 ];
+async function openAccount(){
 
-function openAccount(){
+  const { data } =
+    await erthaSupabase.auth.getSession();
 
   document.getElementById("accountModal").style.display="block";
 
+  if(data.session){
+
+    document.getElementById("accountMessage").innerText =
+      "أنت مسجل دخول ✅\n" + data.session.user.email;
+
+  }
+
 }
+
+
 
 function closeAccount(){
 
