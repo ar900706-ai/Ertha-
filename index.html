@@ -836,10 +836,31 @@ async function openAccount(){
 
   document.getElementById("accountModal").style.display="block";
 
+  const status =
+    document.getElementById("accountStatus");
+
+  const email =
+    document.getElementById("accountEmail");
+
+  const password =
+    document.getElementById("accountPassword");
+
   if(data.session){
 
-    document.getElementById("accountMessage").innerText =
-      "أنت مسجل دخول ✅\n" + data.session.user.email;
+    status.innerText =
+      "🟢 مسجل دخول\n" +
+      data.session.user.email;
+
+    email.style.display = "none";
+    password.style.display = "none";
+
+  }else{
+
+    status.innerText =
+      "تسجيل الدخول إلى حساب إرثا";
+
+    email.style.display = "block";
+    password.style.display = "block";
 
   }
 
