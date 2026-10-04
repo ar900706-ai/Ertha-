@@ -854,6 +854,8 @@ async function openAccount(){
     email.style.display = "none";
     password.style.display = "none";
 
+    document.getElementById("logoutButton").style.display = "block";
+
   }else{
 
     status.innerText =
@@ -861,6 +863,8 @@ async function openAccount(){
 
     email.style.display = "block";
     password.style.display = "block";
+
+    document.getElementById("logoutButton").style.display = "none";
 
   }
 
