@@ -844,7 +844,11 @@ async function openAccount(){
 
   const password =
     document.getElementById("accountPassword");
+const loginButton =
+  document.querySelector(".accountBox button.primary");
 
+const signupButton =
+  document.querySelector(".accountBox button[onclick='signupUser()']");
   if(data.session){
 
     status.innerText =
