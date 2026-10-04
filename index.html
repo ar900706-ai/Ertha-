@@ -754,11 +754,12 @@ footer{
     <button onclick="signupUser()">
       إنشاء حساب جديد
     </button>
-
-    <p id="accountMessage"></p>
-<button onclick="logoutUser()">
+<button id="logoutButton"
+        onclick="logoutUser()"
+        style="display:none;">
   🚪 تسجيل الخروج
 </button>
+    <p id="accountMessage"></p>
   </div>
 
 </div>
