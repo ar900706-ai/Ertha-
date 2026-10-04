@@ -1234,11 +1234,22 @@ async function logoutUser(){
       error.message;
 
     return;
-  }
-
-  message.innerText =
+  }  message.innerText =
     "تم تسجيل الخروج بنجاح ✅";
 }
+
+erthaSupabase.auth.getSession().then(({ data }) => {
+
+  if (data.session) {
+
+    console.log(
+      "المستخدم مسجل دخول:",
+      data.session.user.email
+    );
+
+  }
+
+});
 
 </script>
 </body>
