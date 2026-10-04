@@ -827,7 +827,6 @@ const properties = [
     image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80",
     favorite:false
   }
-
 ];
 async function openAccount(){
 
@@ -844,11 +843,16 @@ async function openAccount(){
 
   const password =
     document.getElementById("accountPassword");
-const loginButton =
-  document.querySelector(".accountBox button.primary");
 
-const signupButton =
-  document.querySelector(".accountBox button[onclick='signupUser()']");
+  const loginButton =
+    document.querySelector(".accountBox button.primary");
+
+  const signupButton =
+    document.querySelector(".accountBox button[onclick='signupUser()']");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
   if(data.session){
 
     status.innerText =
@@ -857,25 +861,24 @@ const signupButton =
 
     email.style.display = "none";
     password.style.display = "none";
-loginButton.style.display = "none";
-signupButton.style.display = "none";
-    document.getElementById("logoutButton").style.display = "block";
+
+    loginButton.style.display = "none";
+    signupButton.style.display = "none";
+    logoutButton.style.display = "block";
 
   }else{
-}else{
 
-  status.innerText =
-    "تسجيل الدخول إلى حساب إرثا";
+    status.innerText =
+      "تسجيل الدخول إلى حساب إرثا";
 
-  email.style.display = "block";
-  password.style.display = "block";
+    email.style.display = "block";
+    password.style.display = "block";
 
-  loginButton.style.display = "block";
-  signupButton.style.display = "block";
+    loginButton.style.display = "block";
+    signupButton.style.display = "block";
+    logoutButton.style.display = "none";
 
-  document.getElementById("logoutButton").style.display = "none";
-
-}
+  }
 
 }
 
