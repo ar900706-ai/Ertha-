@@ -1099,21 +1099,18 @@ async function addProperty(){
     return;
   }
 const { data, error } =
-    await erthaSupabase
-      .from("properties")
-      .insert([
-
-        {
-          name: name,
-          
-          price: price,
-          type: type,
-          owner_id: user.id
-        }
-
-      ])
-      .select()
-      .single();
+  await erthaSupabase
+    .from("properties")
+    .insert([
+      {
+        name: name,
+        price: price,
+        type: type,
+        owner_id: user.id
+      }
+    ])
+    .select()
+    .single();
   if(error){
 
     console.error(error);
