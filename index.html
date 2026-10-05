@@ -1098,25 +1098,22 @@ async function addProperty(){
     showToast("يجب تسجيل الدخول أولاً لإضافة عقار 🔐");
     return;
   }
-
-  const { data, error } =
+const { data, error } =
     await erthaSupabase
       .from("properties")
       .insert([
 
         {
           name: name,
+          location: location,
           price: price,
-          type: "للبيع",
-         
-        
+          type: type,
           owner_id: user.id
         }
 
       ])
       .select()
       .single();
-
   if(error){
 
     console.error(error);
