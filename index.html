@@ -922,7 +922,7 @@ function renderProperties(list=currentProperties){
     card.innerHTML=`
 
       <div class="cardImage"
-        style="background-image:url('${p.image}')">
+        style="background-image:url('${p.image_url || p.image}')"
 
         <div class="badge">${p.type}</div>
 
