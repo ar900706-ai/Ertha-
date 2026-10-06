@@ -1075,7 +1075,6 @@ function resetProperties(){
   renderProperties(currentProperties);
 
 }
-
 async function addProperty(){
 
   const name =
@@ -1089,6 +1088,9 @@ async function addProperty(){
 
   const type =
     document.getElementById("propertyType").value;
+
+  const imageFile =
+    document.getElementById("propertyImage").files[0];
 
   if(!name || !location || !price){
 
@@ -1104,20 +1106,60 @@ async function addProperty(){
     showToast("يجب تسجيل الدخول أولاً لإضافة عقار 🔐");
     return;
   }
-const { data, error } =
-  await erthaSupabase
-    .from("properties")
-    .insert([
-{
-  title: name,
-  location: location,
-  price: price,
-  type: type,
-  owner_id: user.id
-}
-    ])
-    .select()
-    .single();
+
+  let imageUrl = "";
+
+  // رفع الصورة إذا تم اختيار صورة
+  if(imageFile){
+
+    const fileExt =
+      imageFile.name.split(".").pop();
+
+    const fileName =
+      user.id + "_" + Date.now() + "." + fileExt;
+
+    const { error: uploadError } =
+      await erthaSupabase.storage
+        .from("Property_images")
+        .upload(fileName, imageFile);
+
+    if(uploadError){
+
+      console.error(uploadError);
+
+      showToast(
+        "حدث خطأ أثناء رفع الصورة: " +
+        uploadError.message
+      );
+
+      return;
+    }
+
+    const { data: publicUrlData } =
+      erthaSupabase.storage
+        .from("Property_images")
+        .getPublicUrl(fileName);
+
+    imageUrl = publicUrlData.publicUrl;
+  }
+
+  // حفظ العقار في قاعدة البيانات
+  const { data, error } =
+    await erthaSupabase
+      .from("properties")
+      .insert([
+        {
+          title: name,
+          location: location,
+          price: price,
+          type: type,
+          image_url: imageUrl,
+          owner_id: user.id
+        }
+      ])
+      .select()
+      .single();
+
   if(error){
 
     console.error(error);
@@ -1134,7 +1176,11 @@ const { data, error } =
 
     ...data,
 
-    favorite:false
+    name: data.title,
+
+    image: data.image_url,
+
+    favorite: false
 
   };
 
@@ -1144,11 +1190,12 @@ const { data, error } =
 
   renderProperties(currentProperties);
 
-  document.getElementById("propertyName").value="";
-  document.getElementById("propertyLocation").value="";
-  document.getElementById("propertyPrice").value="";
+  document.getElementById("propertyName").value = "";
+  document.getElementById("propertyLocation").value = "";
+  document.getElementById("propertyPrice").value = "";
+  document.getElementById("propertyImage").value = "";
 
-  showToast("تم حفظ العقار في إرثا بنجاح ✅");
+  showToast("تم حفظ العقار والصورة بنجاح ✅");
 
   document.getElementById("properties")
     .scrollIntoView({behavior:"smooth"});
