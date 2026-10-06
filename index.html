@@ -1302,6 +1302,36 @@ const erthaSupabase = window.supabase.createClient(
   ERTHA_SUPABASE_URL,
   ERTHA_SUPABASE_KEY
 );
+  async function loadPropertiesFromSupabase(){
+
+  const { data, error } =
+    await erthaSupabase
+      .from("properties")
+      .select("*");
+
+  if(error){
+
+    console.error("خطأ في تحميل العقارات:", error);
+
+    showToast("تعذر تحميل العقارات");
+
+    return;
+  }
+
+  properties = (data || []).map(property => ({
+
+    ...property,
+
+    name: property.title,
+
+    favorite: false
+
+  }));
+
+  currentProperties = [...properties];
+
+  renderProperties(currentProperties);
+}
 </script>
 <script>
 
