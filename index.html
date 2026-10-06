@@ -1183,12 +1183,14 @@ async function addProperty(){
     favorite: false
 
   };
+properties = [
+  newProperty,
+  ...properties.filter(p => p.id !== newProperty.id)
+];
 
-  properties.unshift(newProperty);
+currentProperties = [...properties];
 
-  currentProperties = [...properties];
-
-  renderProperties(currentProperties);
+renderProperties(currentProperties);
 
   document.getElementById("propertyName").value = "";
   document.getElementById("propertyLocation").value = "";
