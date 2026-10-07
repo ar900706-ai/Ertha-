@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ertha | عقار إرثا</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -108,7 +111,6 @@ header{
   outline:0;
   padding:12px;
   font-size:14px;
-  background:white;
 }
 
 .search button{
@@ -172,7 +174,6 @@ header{
   border-radius:18px;
   padding:20px;
   margin-top:18px;
-  overflow:hidden;
 }
 
 .banner h2{
@@ -213,6 +214,7 @@ header{
   background-size:cover;
   background-position:center;
   position:relative;
+  background-color:#dfe5e8;
 }
 
 .badge{
@@ -237,6 +239,7 @@ header{
   border-radius:50%;
   background:white;
   font-size:18px;
+  cursor:pointer;
 }
 
 .cardBody{
@@ -276,6 +279,33 @@ header{
   padding:9px;
   border-radius:9px;
   font-weight:bold;
+  cursor:pointer;
+}
+
+.ownerBtns{
+  display:flex;
+  gap:6px;
+  margin-top:7px;
+}
+
+.editBtn,
+.deleteBtn{
+  flex:1;
+  border:0;
+  padding:8px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.editBtn{
+  background:#edf2f5;
+  color:#24394b;
+}
+
+.deleteBtn{
+  background:#ffe8e8;
+  color:#b3261e;
 }
 
 .addBox{
@@ -313,6 +343,19 @@ header{
   padding:13px;
   border-radius:10px;
   font-weight:bold;
+  cursor:pointer;
+}
+
+.secondary{
+  width:100%;
+  border:0;
+  background:#edf1f4;
+  color:#24394b;
+  padding:13px;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:8px;
 }
 
 .assistant{
@@ -354,13 +397,16 @@ header{
   padding:8px 10px;
   font-size:11px;
 }
-.accountModal{
+
+.accountModal,
+.modal{
   display:none;
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.55);
   z-index:60;
   padding:25px 15px;
+  overflow:auto;
 }
 
 .accountBox{
@@ -394,16 +440,85 @@ header{
   border-radius:10px;
   background:#eee;
   font-weight:bold;
+  cursor:pointer;
 }
-  .accountBox button.primary{
+
+.accountBox button.primary{
   background:#10283c !important;
   color:white !important;
 }
+
 #accountMessage{
   text-align:center;
   margin-top:12px;
   font-size:13px;
+  line-height:1.7;
 }
+
+#accountStatus{
+  background:#f4f7f9;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:15px;
+  text-align:center;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.modalBox{
+  background:white;
+  border-radius:20px;
+  max-width:600px;
+  margin:auto;
+  overflow:hidden;
+}
+
+.modalImg{
+  height:220px;
+  background-size:cover;
+  background-position:center;
+  background-color:#dfe5e8;
+}
+
+.modalContent{
+  padding:20px;
+}
+
+.close{
+  float:left;
+  border:0;
+  background:#eee;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.toast{
+  position:fixed;
+  bottom:85px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#10283c;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  display:none;
+  z-index:100;
+  font-size:13px;
+  max-width:90%;
+  text-align:center;
+}
+
+.loading{
+  grid-column:1/-1;
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+}
+
 footer{
   position:fixed;
   bottom:0;
@@ -423,6 +538,7 @@ footer{
   background:none;
   color:#697782;
   font-size:10px;
+  cursor:pointer;
 }
 
 .navItem span{
@@ -436,59 +552,12 @@ footer{
   font-weight:bold;
 }
 
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:50;
-  padding:25px 15px;
-  overflow:auto;
-}
-
-.modalBox{
-  background:white;
-  border-radius:20px;
-  max-width:600px;
-  margin:auto;
-  overflow:hidden;
-}
-
-.modalImg{
-  height:220px;
-  background-size:cover;
-  background-position:center;
-}
-
-.modalContent{
-  padding:20px;
-}
-
-.close{
-  float:left;
-  border:0;
-  background:#eee;
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  font-size:20px;
-}
-
-.toast{
-  position:fixed;
-  bottom:85px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#10283c;
-  color:white;
-  padding:12px 18px;
-  border-radius:10px;
-  display:none;
-  z-index:100;
-  font-size:13px;
+.hidden{
+  display:none !important;
 }
 
 @media(max-width:600px){
+
   .categories{
     grid-template-columns:repeat(5,1fr);
   }
@@ -504,9 +573,14 @@ footer{
   .hero h1{
     font-size:22px;
   }
+
+  .cardBody h3{
+    font-size:14px;
+  }
 }
 
 @media(min-width:800px){
+
   .properties{
     grid-template-columns:repeat(3,1fr);
   }
@@ -517,217 +591,456 @@ footer{
 <body>
 
 <header>
+
   <div class="top">
 
     <div class="logo">
+
       <div class="logoIcon">⌂</div>
+
       <div class="logoText">
         <b>عقار إرثا</b>
         <span>AQAR ERTHA</span>
       </div>
+
     </div>
 
     <div class="headerBtns">
-      <button class="iconBtn" onclick="showToast('سيتم تفعيل الإشعارات قريباً')">🔔</button>
-      <button class="iconBtn" onclick="showToast('أهلاً بك في إرثا')">👤</button>
+
+      <button class="iconBtn"
+        onclick="showToast('الإشعارات ستتوفر قريباً')">
+        🔔
+      </button>
+
+      <button class="iconBtn"
+        onclick="openAccount()">
+        👤
+      </button>
+
     </div>
 
   </div>
 
   <div class="hero">
+
     <h1>ابحث عن عقارك بسهولة</h1>
+
     <p>كل ما تحتاجه في مكان واحد</p>
+
   </div>
 
   <div class="search">
-    <input id="searchInput" placeholder="ابحث عن منزل، شقة، أرض...">
-    <button onclick="searchProperties()">بحث</button>
+
+    <input
+      id="searchInput"
+      placeholder="ابحث عن منزل، شقة، أرض...">
+
+    <button onclick="searchProperties()">
+      بحث
+    </button>
+
   </div>
+
 </header>
+
 
 <main class="container">
 
+
   <div class="categories">
 
-    <button class="cat" onclick="filterType('للبيع')">
+    <button class="cat"
+      onclick="filterType('للبيع')">
+
       <span class="emoji">🏠</span>
       شراء
+
     </button>
 
-    <button class="cat" onclick="filterType('للبيع')">
+
+    <button class="cat"
+      onclick="filterType('للبيع')">
+
       <span class="emoji">🏷️</span>
       بيع
+
     </button>
 
-    <button class="cat" onclick="filterType('للإيجار')">
+
+    <button class="cat"
+      onclick="filterType('للإيجار')">
+
       <span class="emoji">🔑</span>
       إيجار
+
     </button>
 
-    <button class="cat" onclick="filterType('أرض')">
+
+    <button class="cat"
+      onclick="filterType('أرض')">
+
       <span class="emoji">📍</span>
       أراضي
+
     </button>
 
-    <button class="cat" onclick="showToast('قسم المشاريع قريباً')">
+
+    <button class="cat"
+      onclick="showToast('قسم المشاريع قريباً')">
+
       <span class="emoji">🏢</span>
       مشاريع
+
     </button>
 
   </div>
 
+
   <div class="banner">
+
     <h2>عقارك يبدأ من إرثا</h2>
+
     <p>
       منصة عقارية تساعدك على العثور على العقار المناسب
       للبيع والشراء والإيجار في كربلاء.
     </p>
-    <button onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">
+
+    <button
+      onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">
+
       أضف عقارك الآن
+
     </button>
+
   </div>
 
+
   <div class="sectionTitle">
-    <h2>عقارات مميزة</h2>
-    <button onclick="resetProperties()">عرض الكل</button>
+
+    <h2>العقارات</h2>
+
+    <button onclick="resetProperties()">
+      عرض الكل
+    </button>
+
   </div>
 
-  <section class="properties" id="properties"></section>
+
+  <section
+    class="properties"
+    id="properties">
+
+    <div class="loading">
+      جاري تحميل العقارات...
+    </div>
+
+  </section>
+
 
   <div class="sectionTitle">
+
     <h2>المساعد العقاري 🤖</h2>
+
   </div>
+
 
   <div class="assistant">
 
     <div class="assistantHeader">
-      <div class="bot">🤖</div>
+
+      <div class="bot">
+        🤖
+      </div>
+
       <div>
+
         <h3>مساعد إرثا</h3>
+
         <p style="font-size:12px;color:#71808a">
           اسألني عن البحث عن العقار
         </p>
+
       </div>
+
     </div>
+
 
     <div class="question">
-      <button onclick="assistantAnswer('أريد بيتاً في كربلاء')">أريد بيتاً في كربلاء</button>
-      <button onclick="assistantAnswer('أريد شقة')">أريد شقة</button>
-      <button onclick="assistantAnswer('أريد أرضاً')">أريد أرضاً</button>
-      <button onclick="assistantAnswer('أريد عقاراً للاستثمار')">أريد للاستثمار</button>
+
+      <button
+        onclick="assistantAnswer('بيت')">
+        أريد بيتاً
+      </button>
+
+      <button
+        onclick="assistantAnswer('شقة')">
+        أريد شقة
+      </button>
+
+      <button
+        onclick="assistantAnswer('أرض')">
+        أريد أرضاً
+      </button>
+
+      <button
+        onclick="assistantAnswer('استثمار')">
+        أريد للاستثمار
+      </button>
+
     </div>
 
   </div>
 
+
   <div id="add" class="sectionTitle">
-    <h2>أضف عقارك</h2>
+
+    <h2 id="addTitle">
+      أضف عقارك
+    </h2>
+
   </div>
+
 
   <div class="addBox">
 
     <div class="formGroup">
-      <label>اسم العقار</label>
-      <input id="propertyName" placeholder="مثلاً: بيت سكني">
+
+      <label>
+        اسم العقار
+      </label>
+
+      <input
+        id="propertyName"
+        placeholder="مثلاً: بيت سكني">
+
     </div>
 
-    <div class="formGroup">
-      <label>الموقع</label>
-      <input id="propertyLocation" placeholder="مثلاً: كربلاء - حي الحسين">
-    </div>
 
     <div class="formGroup">
-      <label>السعر</label>
-      <input id="propertyPrice" placeholder="مثلاً: 250 مليون">
+
+      <label>
+        الموقع
+      </label>
+
+      <input
+        id="propertyLocation"
+        placeholder="مثلاً: كربلاء - حي الحسين">
+
     </div>
 
+
     <div class="formGroup">
-      <label>نوع العقار</label>
+
+      <label>
+        السعر
+      </label>
+
+      <input
+        id="propertyPrice"
+        placeholder="مثلاً: 250 مليون">
+
+    </div>
+
+
+    <div class="formGroup">
+
+      <label>
+        نوع العقار / حالة الإعلان
+      </label>
+
       <select id="propertyType">
-        <option>بيت</option>
-        <option>شقة</option>
-        <option>أرض</option>
-        <option>محل تجاري</option>
-        <option>مشروع</option>
+
+        <option value="للبيع">
+          للبيع
+        </option>
+
+        <option value="للإيجار">
+          للإيجار
+        </option>
+
+        <option value="أرض">
+          أرض
+        </option>
+
       </select>
+
     </div>
-<div class="formGroup">
-  <label>صورة العقار</label>
-  <input
-    id="propertyImage"
-    type="file"
-    accept="image/*">
-</div>
-    <button class="primary" onclick="addProperty()">
+
+
+    <div class="formGroup">
+
+      <label>
+        صورة العقار
+      </label>
+
+      <input
+        id="propertyImage"
+        type="file"
+        accept="image/*">
+
+    </div>
+
+
+    <button
+      id="savePropertyButton"
+      class="primary"
+      onclick="addProperty()">
+
       ➕ إضافة العقار
+
+    </button>
+
+
+    <button
+      id="cancelEditButton"
+      class="secondary hidden"
+      onclick="cancelEdit()">
+
+      إلغاء التعديل
+
     </button>
 
   </div>
 
+
   <div class="sectionTitle">
-    <h2>لماذا إرثا؟</h2>
+
+    <h2>
+      لماذا إرثا؟
+    </h2>
+
   </div>
 
+
   <div class="assistant">
+
     <p style="line-height:2;font-size:13px">
+
       ✅ عقارات منظمة وسهلة البحث<br>
+
       ✅ معلومات واضحة عن العقار<br>
+
       ✅ مساعدة في اختيار العقار<br>
+
       ✅ تصميم مناسب للموبايل<br>
+
       ✅ قابل للتوسع ليشمل جميع العراق
+
     </p>
+
   </div>
 
 </main>
 
+
 <footer>
 
-  <button class="navItem active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <button
+    class="navItem active"
+    onclick="window.scrollTo({top:0,behavior:'smooth'})">
+
     <span>⌂</span>
     الرئيسية
+
   </button>
 
-  <button class="navItem" onclick="document.getElementById('properties').scrollIntoView({behavior:'smooth'})">
+
+  <button
+    class="navItem"
+    onclick="document.getElementById('properties').scrollIntoView({behavior:'smooth'})">
+
     <span>🔎</span>
     البحث
+
   </button>
 
-  <button class="navItem" onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">
+
+  <button
+    class="navItem"
+    onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">
+
     <span>➕</span>
     إضافة
+
   </button>
 
-  <button class="navItem" onclick="showFavorites()">
+
+  <button
+    class="navItem"
+    onclick="showFavorites()">
+
     <span>❤️</span>
     المفضلة
+
   </button>
-<button class="navItem" onclick="openAccount()">
-  <span>👤</span>
-  حسابي
-</button>
+
+
+  <button
+    class="navItem"
+    onclick="openAccount()">
+
+    <span>👤</span>
+    حسابي
+
+  </button>
 
 </footer>
 
-<div class="modal" id="modal">
+
+<!-- تفاصيل العقار -->
+
+<div
+  class="modal"
+  id="modal">
 
   <div class="modalBox">
 
-    <div class="modalImg" id="modalImg"></div>
+    <div
+      class="modalImg"
+      id="modalImg">
+    </div>
+
 
     <div class="modalContent">
 
-      <button class="close" onclick="closeModal()">×</button>
+      <button
+        class="close"
+        onclick="closeModal()">
+        ×
+      </button>
 
-      <h2 id="modalTitle"></h2>
 
-      <p id="modalLocation" class="location" style="margin-top:10px"></p>
+      <h2
+        id="modalTitle">
+      </h2>
 
-      <div id="modalPrice" class="price"></div>
 
-      <p id="modalDetails" style="margin-top:15px;line-height:1.9;font-size:13px"></p>
+      <p
+        id="modalLocation"
+        class="location"
+        style="margin-top:10px">
+      </p>
 
-      <button class="primary" style="margin-top:18px"
+
+      <div
+        id="modalPrice"
+        class="price">
+      </div>
+
+
+      <p
+        id="modalDetails"
+        style="margin-top:15px;line-height:1.9;font-size:13px">
+      </p>
+
+
+      <button
+        class="primary"
+        style="margin-top:18px"
         onclick="contactOwner()">
+
         📞 تواصل مع المعلن
+
       </button>
 
     </div>
@@ -735,228 +1048,408 @@ footer{
   </div>
 
 </div>
-<div class="accountModal" id="accountModal">
+
+
+<!-- الحساب -->
+
+<div
+  class="accountModal"
+  id="accountModal">
 
   <div class="accountBox">
 
-    <button class="close" onclick="closeAccount()">×</button>
+    <button
+      class="close"
+      onclick="closeAccount()">
+      ×
+    </button>
 
-    <h2>👤 حساب إرثا</h2>
-<div id="accountStatus"></div>
+
+    <h2>
+      👤 حساب إرثا
+    </h2>
+
+
+    <div id="accountStatus">
+      تسجيل الدخول إلى حساب إرثا
+    </div>
+
+
     <input
       id="accountEmail"
       type="email"
       placeholder="البريد الإلكتروني">
+
 
     <input
       id="accountPassword"
       type="password"
       placeholder="كلمة المرور">
 
-    <button class="primary" onclick="loginUser()">
+
+    <button
+      id="loginButton"
+      class="primary"
+      onclick="loginUser()">
+
       تسجيل الدخول
+
     </button>
 
-    <button onclick="signupUser()">
+
+    <button
+      id="signupButton"
+      onclick="signupUser()">
+
       إنشاء حساب جديد
+
     </button>
-<button id="logoutButton"
-        onclick="logoutUser()"
-        style="display:none;">
-  🚪 تسجيل الخروج
-</button>
+
+
+    <button
+      id="logoutButton"
+      onclick="logoutUser()"
+      style="display:none;">
+
+      🚪 تسجيل الخروج
+
+    </button>
+
+
     <p id="accountMessage"></p>
+
   </div>
 
 </div>
-<div class="toast" id="toast"></div>
+
+
+<div
+  class="toast"
+  id="toast">
+</div>
+
 
 <script>
 
-let properties = [
+/* =====================================================
+   إعداد Supabase
+===================================================== */
 
-  {
-    name:"منزل سكني فاخر",
-    location:"كربلاء - حي الحسين",
-    price:"250 مليون",
-    type:"للبيع",
-    details:"منزل سكني بموقع مميز، مناسب للعائلة وقريب من الخدمات.",
-    image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-    favorite:false
-  },
+const ERTHA_SUPABASE_URL =
+  "https://ezpzqiovggovrisqrzer.supabase.co";
 
-  {
-    name:"بيت عائلي حديث",
-    location:"كربلاء - حي النصر",
-    price:"300 مليون",
-    type:"للبيع",
-    details:"بيت حديث بتصميم جميل ومساحة مناسبة للسكن العائلي.",
-    image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80",
-    favorite:false
-  },
+const ERTHA_SUPABASE_KEY =
+  "sb_publishable_EvK0fcjnX7_fwZYRmZcgYQ_Qru77ztu";
 
-  {
-    name:"شقة سكنية",
-    location:"كربلاء - مركز المدينة",
-    price:"180 مليون",
-    type:"للبيع",
-    details:"شقة سكنية قريبة من الأسواق والخدمات.",
-    image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
-    favorite:false
-  },
+const erthaSupabase =
+  window.supabase.createClient(
+    ERTHA_SUPABASE_URL,
+    ERTHA_SUPABASE_KEY
+  );
 
-  {
-    name:"أرض سكنية",
-    location:"كربلاء - حي جديد",
-    price:"120 مليون",
-    type:"أرض",
-    details:"قطعة أرض مناسبة للبناء والاستثمار.",
-    image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
-    favorite:false
-  },
 
-  {
-    name:"محل تجاري",
-    location:"كربلاء - شارع تجاري",
-    price:"350 مليون",
-    type:"للبيع",
-    details:"عقار تجاري مناسب لمشروع مطعم أو متجر.",
-    image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80",
-    favorite:false
-  },
+/* =====================================================
+   المتغيرات
+===================================================== */
 
-  {
-    name:"شقة للإيجار",
-    location:"كربلاء",
-    price:"750 ألف شهرياً",
-    type:"للإيجار",
-    details:"شقة مرتبة وجاهزة للسكن.",
-    image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80",
-    favorite:false
+let properties = [];
+
+let currentProperties = [];
+
+let currentUser = null;
+
+let editingPropertyId = null;
+
+let currentOpenedProperty = null;
+
+
+/* =====================================================
+   صور افتراضية
+===================================================== */
+
+const DEFAULT_IMAGE =
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80";
+
+
+/* =====================================================
+   Toast
+===================================================== */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.innerText = message;
+
+  toast.style.display = "block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(() => {
+
+      toast.style.display = "none";
+
+    }, 3500);
+}
+
+
+/* =====================================================
+   المفضلة
+===================================================== */
+
+function getFavoriteIds(){
+
+  return JSON.parse(
+    localStorage.getItem("erthaFavorites") || "[]"
+  );
+
+}
+
+
+function isFavorite(id){
+
+  if(!id) return false;
+
+  return getFavoriteIds()
+    .map(String)
+    .includes(String(id));
+
+}
+
+
+function toggleFavorite(id){
+
+  if(!id){
+
+    showToast("لا يمكن حفظ هذا العقار حالياً");
+
+    return;
   }
-];
-async function openAccount(){
 
-  const { data } =
-    await erthaSupabase.auth.getSession();
+  let favorites =
+    getFavoriteIds();
 
-  document.getElementById("accountModal").style.display="block";
+  const index =
+    favorites
+      .map(String)
+      .indexOf(String(id));
 
-  const status =
-    document.getElementById("accountStatus");
 
-  const email =
-    document.getElementById("accountEmail");
+  if(index === -1){
 
-  const password =
-    document.getElementById("accountPassword");
+    favorites.push(id);
 
-  const loginButton =
-    document.querySelector(".accountBox button.primary");
-
-  const signupButton =
-    document.querySelector(".accountBox button[onclick='signupUser()']");
-
-  const logoutButton =
-    document.getElementById("logoutButton");
-
-  if(data.session){
-
-    status.innerText =
-      "🟢 مسجل دخول\n" +
-      data.session.user.email;
-
-    email.style.display = "none";
-    password.style.display = "none";
-
-    loginButton.style.display = "none";
-    signupButton.style.display = "none";
-    logoutButton.style.display = "block";
+    showToast(
+      "تمت إضافة العقار للمفضلة ❤️"
+    );
 
   }else{
 
-    status.innerText =
-      "تسجيل الدخول إلى حساب إرثا";
+    favorites.splice(index,1);
 
-    email.style.display = "block";
-    password.style.display = "block";
-
-    loginButton.style.display = "block";
-    signupButton.style.display = "block";
-    logoutButton.style.display = "none";
+    showToast(
+      "تمت إزالة العقار من المفضلة"
+    );
 
   }
 
+
+  localStorage.setItem(
+    "erthaFavorites",
+    JSON.stringify(favorites)
+  );
+
+
+  renderProperties(currentProperties);
+
 }
 
 
+/* =====================================================
+   تحويل عقار Supabase
+===================================================== */
 
-function closeAccount(){
+function normalizeProperty(p){
 
-  document.getElementById("accountModal").style.display="none";
+  return {
+
+    ...p,
+
+    name:
+      p.title || "عقار بدون اسم",
+
+    location:
+      p.location || "غير محدد",
+
+    price:
+      p.price || "السعر عند التواصل",
+
+    type:
+      p.type || "للبيع",
+
+    image:
+      p.image_url || DEFAULT_IMAGE,
+
+    details:
+      p.details ||
+      "عقار منشور عبر منصة إرثا.",
+
+    favorite:
+      isFavorite(p.id)
+
+  };
+
 }
-let currentProperties=[...properties];
 
-function renderProperties(list=currentProperties){
 
-  const container=document.getElementById("properties");
+/* =====================================================
+   عرض العقارات
+===================================================== */
+
+function renderProperties(
+  list = currentProperties
+){
+
+  const container =
+    document.getElementById("properties");
+
 
   if(!list.length){
 
-    container.innerHTML=`
-      <div style="grid-column:1/-1;background:white;padding:25px;border-radius:15px;text-align:center">
-        لا توجد عقارات مطابقة للبحث.
+    container.innerHTML = `
+
+      <div class="loading">
+
+        لا توجد عقارات مطابقة حالياً.
+
       </div>
+
     `;
 
     return;
   }
 
-  container.innerHTML="";
 
-  list.forEach((p,index)=>{
+  container.innerHTML = "";
 
-    const card=document.createElement("div");
-    card.className="card";
 
-    card.innerHTML=`
+  list.forEach((p) => {
 
-      <div class="cardImage"
-        style="background-image:url('${p.image_url || p.image}')"
+    const card =
+      document.createElement("div");
 
-        <div class="badge">${p.type}</div>
+    card.className = "card";
 
-        <button class="heart"
-          onclick="toggleFavorite(${index})">
-          ${p.favorite ? "❤️":"♡"}
+
+    const isOwner =
+      currentUser &&
+      p.owner_id &&
+      String(p.owner_id) ===
+      String(currentUser.id);
+
+
+    card.innerHTML = `
+
+      <div
+        class="cardImage"
+        style="background-image:url('${escapeHtml(p.image)}')">
+
+        <div class="badge">
+          ${escapeHtml(p.type)}
+        </div>
+
+
+        <button
+          class="heart"
+          onclick="toggleFavorite('${p.id}')">
+
+          ${isFavorite(p.id) ? "❤️" : "♡"}
+
         </button>
 
       </div>
+
 
       <div class="cardBody">
 
-        <h3>${p.name}</h3>
+        <h3>
+          ${escapeHtml(p.name)}
+        </h3>
+
 
         <div class="location">
-          📍 ${p.location}
+
+          📍 ${escapeHtml(p.location)}
+
         </div>
+
 
         <div class="price">
-          ${p.price}
+
+          ${escapeHtml(p.price)}
+
         </div>
+
 
         <div class="details">
-          <span>🏠 ${p.type}</span>
-          <span>✓ موثوق</span>
+
+          <span>
+            🏠 ${escapeHtml(p.type)}
+          </span>
+
+          <span>
+            ✓ إرثا
+          </span>
+
         </div>
 
-        <button class="cardBtn"
-          onclick="openProperty(${index})">
+
+        <button
+          class="cardBtn"
+          onclick="openProperty('${p.id}')">
+
           تفاصيل العقار
+
         </button>
 
+
+        ${
+          isOwner
+          ?
+          `
+
+          <div class="ownerBtns">
+
+            <button
+              class="editBtn"
+              onclick="editProperty('${p.id}')">
+
+              ✏️ تعديل
+
+            </button>
+
+
+            <button
+              class="deleteBtn"
+              onclick="deleteProperty('${p.id}')">
+
+              🗑️ حذف
+
+            </button>
+
+          </div>
+
+          `
+          :
+          ""
+        }
+
       </div>
+
     `;
+
 
     container.appendChild(card);
 
@@ -964,325 +1457,1135 @@ function renderProperties(list=currentProperties){
 
 }
 
-function openProperty(index){
 
-  const p=currentProperties[index];
+/* =====================================================
+   حماية النصوص
+===================================================== */
 
-  document.getElementById("modalImg").style.backgroundImage=
-    `url('${p.image}')`;
+function escapeHtml(value){
 
-  document.getElementById("modalTitle").innerText=p.name;
-  document.getElementById("modalLocation").innerText="📍 "+p.location;
-  document.getElementById("modalPrice").innerText=p.price;
-  document.getElementById("modalDetails").innerText=p.details;
+  if(value === null ||
+     value === undefined){
 
-  document.getElementById("modal").style.display="block";
-}
-
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
-
-function contactOwner(){
-  showToast("سيتم تفعيل التواصل المباشر مع المعلن قريباً");
-}
-
-function toggleFavorite(index){
-  currentProperties[index].favorite =
-
-    !currentProperties[index].favorite;
-  localStorage.setItem(
-
-  "erthaFavorites",
-
-  JSON.stringify(properties)
-
-);
-
-  renderProperties(currentProperties);
-
-  showToast(
-
-    currentProperties[index].favorite
-
-      ? "تمت إضافة العقار للمفضلة ❤️"
-
-      : "تمت إزالة العقار من المفضلة"
-
-  );
-
-}
-  function showFavorites(){
-
-  const fav=currentProperties.filter(p=>p.favorite);
-
-  if(!fav.length){
-    showToast("لا توجد عقارات في المفضلة حالياً");
-    return;
-
+    return "";
   }
 
-  renderProperties(fav);
-
-  document.getElementById("properties")
-    .scrollIntoView({behavior:"smooth"});
-}
-
-function searchProperties(){
-
-  const q=document.getElementById("searchInput")
-    .value
-    .trim()
-    .toLowerCase();
-
-  if(!q){
-    currentProperties=[...properties];
-  }else{
-
-    currentProperties=properties.filter(p=>
-      p.name.toLowerCase().includes(q) ||
-      p.location.toLowerCase().includes(q) ||
-      p.type.toLowerCase().includes(q)
-    );
-
-  }
-
-  renderProperties(currentProperties);
-
-  document.getElementById("properties")
-    .scrollIntoView({behavior:"smooth"});
-}
-
-function filterType(type){
-
-  if(type==="للبيع"){
-    currentProperties=properties.filter(p=>p.type==="للبيع");
-  }else if(type==="للإيجار"){
-    currentProperties=properties.filter(p=>p.type==="للإيجار");
-  }else{
-    currentProperties=properties.filter(p=>p.type==="أرض");
-  }
-
-  renderProperties(currentProperties);
-
-  document.getElementById("properties")
-    .scrollIntoView({behavior:"smooth"});
-}
-
-function resetProperties(){
-
-  currentProperties=[...properties];
-  renderProperties(currentProperties);
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
-async function addProperty(){
 
-  const name =
-    document.getElementById("propertyName").value.trim();
 
-  const location =
-    document.getElementById("propertyLocation").value.trim();
+/* =====================================================
+   تحميل العقارات من Supabase
+===================================================== */
 
-  const price =
-    document.getElementById("propertyPrice").value.trim();
+async function loadPropertiesFromSupabase(){
 
-  const type =
-    document.getElementById("propertyType").value;
+  const container =
+    document.getElementById("properties");
 
-  const imageFile =
-    document.getElementById("propertyImage").files[0];
+  container.innerHTML = `
 
-  if(!name || !location || !price){
+    <div class="loading">
+      جاري تحميل العقارات...
+    </div>
 
-    showToast("يرجى ملء معلومات العقار");
-    return;
-  }
+  `;
 
-  const { data: { user } } =
-    await erthaSupabase.auth.getUser();
 
-  if(!user){
-
-    showToast("يجب تسجيل الدخول أولاً لإضافة عقار 🔐");
-    return;
-  }
-
-  let imageUrl = "";
-
-  // رفع الصورة إذا تم اختيار صورة
-  if(imageFile){
-
-    const fileExt =
-      imageFile.name.split(".").pop();
-
-    const fileName =
-      user.id + "_" + Date.now() + "." + fileExt;
-
-    const { error: uploadError } =
-      await erthaSupabase.storage
-        .from("Property_images")
-        .upload(fileName, imageFile);
-
-    if(uploadError){
-
-      console.error(uploadError);
-
-      showToast(
-        "حدث خطأ أثناء رفع الصورة: " +
-        uploadError.message
-      );
-
-      return;
-    }
-
-    const { data: publicUrlData } =
-      erthaSupabase.storage
-        .from("Property_images")
-        .getPublicUrl(fileName);
-
-    imageUrl = publicUrlData.publicUrl;
-  }
-
-  // حفظ العقار في قاعدة البيانات
   const { data, error } =
     await erthaSupabase
       .from("properties")
-      .insert([
-        {
-          title: name,
-          location: location,
-          price: price,
-          type: type,
-          image_url: imageUrl,
-          owner_id: user.id
+      .select("*")
+      .order("created_at", {
+        ascending:false
+      });
+
+
+  if(error){
+
+    console.error(
+      "خطأ تحميل العقارات:",
+      error
+    );
+
+    container.innerHTML = `
+
+      <div class="loading">
+
+        تعذر تحميل العقارات.<br><br>
+
+        ${escapeHtml(error.message)}
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  properties =
+    (data || [])
+      .map(normalizeProperty);
+
+
+  currentProperties =
+    [...properties];
+
+
+  renderProperties(
+    currentProperties
+  );
+
+}
+
+
+/* =====================================================
+   إضافة عقار
+===================================================== */
+
+async function addProperty(){
+
+  const name =
+    document
+      .getElementById("propertyName")
+      .value
+      .trim();
+
+
+  const location =
+    document
+      .getElementById("propertyLocation")
+      .value
+      .trim();
+
+
+  const price =
+    document
+      .getElementById("propertyPrice")
+      .value
+      .trim();
+
+
+  const type =
+    document
+      .getElementById("propertyType")
+      .value;
+
+
+  const imageFile =
+    document
+      .getElementById("propertyImage")
+      .files[0];
+
+
+  if(!name ||
+     !location ||
+     !price){
+
+    showToast(
+      "يرجى ملء معلومات العقار"
+    );
+
+    return;
+  }
+
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await erthaSupabase
+      .auth
+      .getUser();
+
+
+  if(!user){
+
+    showToast(
+      "يجب تسجيل الدخول أولاً 🔐"
+    );
+
+    openAccount();
+
+    return;
+  }
+
+
+  currentUser = user;
+
+
+  const button =
+    document.getElementById(
+      "savePropertyButton"
+    );
+
+
+  button.disabled = true;
+
+  button.innerText =
+    editingPropertyId
+    ?
+    "جاري حفظ التعديل..."
+    :
+    "جاري حفظ العقار...";
+
+
+  try{
+
+
+    /* ==========================================
+       تعديل عقار موجود
+    ========================================== */
+
+    if(editingPropertyId){
+
+      const updateData = {
+
+        title:name,
+
+        location:location,
+
+        price:price,
+
+        type:type
+
+      };
+
+
+      if(imageFile){
+
+        const fileExt =
+          imageFile.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+        const fileName =
+          user.id +
+          "_" +
+          Date.now() +
+          "." +
+          fileExt;
+
+
+        const {
+          error: uploadError
+        } =
+          await erthaSupabase
+            .storage
+            .from("Property_images")
+            .upload(
+              fileName,
+              imageFile
+            );
+
+
+        if(uploadError){
+
+          throw uploadError;
+
         }
-      ])
-      .select()
-      .single();
+
+
+        const {
+          data: publicUrlData
+        } =
+          erthaSupabase
+            .storage
+            .from("Property_images")
+            .getPublicUrl(
+              fileName
+            );
+
+
+        updateData.image_url =
+          publicUrlData.publicUrl;
+
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await erthaSupabase
+          .from("properties")
+          .update(updateData)
+          .eq("id", editingPropertyId)
+          .eq("owner_id", user.id)
+          .select()
+          .single();
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showToast(
+        "تم تعديل العقار بنجاح ✅"
+      );
+
+
+      editingPropertyId =
+        null;
+
+
+      resetAddForm();
+
+      await loadPropertiesFromSupabase();
+
+      return;
+
+    }
+
+
+    /* ==========================================
+       إضافة عقار جديد
+    ========================================== */
+
+    let imageUrl = "";
+
+
+    if(imageFile){
+
+      const fileExt =
+        imageFile.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const fileName =
+        user.id +
+        "_" +
+        Date.now() +
+        "." +
+        fileExt;
+
+
+      const {
+        error:uploadError
+      } =
+        await erthaSupabase
+          .storage
+          .from("Property_images")
+          .upload(
+            fileName,
+            imageFile
+          );
+
+
+      if(uploadError){
+
+        throw uploadError;
+
+      }
+
+
+      const {
+        data:publicUrlData
+      } =
+        await erthaSupabase
+          .storage
+          .from("Property_images")
+          .getPublicUrl(
+            fileName
+          );
+
+
+      imageUrl =
+        publicUrlData.publicUrl;
+
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await erthaSupabase
+        .from("properties")
+        .insert([
+
+          {
+
+            title:name,
+
+            location:location,
+
+            price:price,
+
+            type:type,
+
+            image_url:imageUrl,
+
+            owner_id:user.id
+
+          }
+
+        ])
+        .select()
+        .single();
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    showToast(
+      "تم إضافة العقار بنجاح ✅"
+    );
+
+
+    resetAddForm();
+
+
+    await loadPropertiesFromSupabase();
+
+
+    document
+      .getElementById("properties")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "حدث خطأ: " +
+      error.message
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.innerText =
+      editingPropertyId
+      ?
+      "💾 حفظ التعديل"
+      :
+      "➕ إضافة العقار";
+
+  }
+
+}
+
+
+/* =====================================================
+   تعديل عقار
+===================================================== */
+
+function editProperty(id){
+
+  const property =
+    properties.find(
+      p =>
+        String(p.id) ===
+        String(id)
+    );
+
+
+  if(!property){
+
+    showToast(
+      "لم يتم العثور على العقار"
+    );
+
+    return;
+  }
+
+
+  if(!currentUser ||
+     String(property.owner_id) !==
+     String(currentUser.id)){
+
+    showToast(
+      "لا يمكنك تعديل هذا العقار"
+    );
+
+    return;
+  }
+
+
+  editingPropertyId =
+    property.id;
+
+
+  document
+    .getElementById("propertyName")
+    .value =
+    property.name || "";
+
+
+  document
+    .getElementById("propertyLocation")
+    .value =
+    property.location || "";
+
+
+  document
+    .getElementById("propertyPrice")
+    .value =
+    property.price || "";
+
+
+  document
+    .getElementById("propertyType")
+    .value =
+    property.type || "للبيع";
+
+
+  document
+    .getElementById("propertyImage")
+    .value = "";
+
+
+  document
+    .getElementById("addTitle")
+    .innerText =
+    "✏️ تعديل العقار";
+
+
+  document
+    .getElementById("savePropertyButton")
+    .innerText =
+    "💾 حفظ التعديل";
+
+
+  document
+    .getElementById("cancelEditButton")
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById("add")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   إلغاء التعديل
+===================================================== */
+
+function cancelEdit(){
+
+  editingPropertyId =
+    null;
+
+  resetAddForm();
+
+}
+
+
+/* =====================================================
+   حذف عقار
+===================================================== */
+
+async function deleteProperty(id){
+
+  if(!currentUser){
+
+    showToast(
+      "يجب تسجيل الدخول"
+    );
+
+    return;
+  }
+
+
+  const property =
+    properties.find(
+      p =>
+        String(p.id) ===
+        String(id)
+    );
+
+
+  if(!property){
+
+    return;
+  }
+
+
+  if(String(property.owner_id) !==
+     String(currentUser.id)){
+
+    showToast(
+      "لا يمكنك حذف هذا العقار"
+    );
+
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+      "هل أنت متأكد من حذف هذا العقار؟"
+    );
+
+
+  if(!confirmed){
+
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await erthaSupabase
+      .from("properties")
+      .delete()
+      .eq("id",id)
+      .eq("owner_id",currentUser.id);
+
 
   if(error){
 
     console.error(error);
 
     showToast(
-      "حدث خطأ أثناء إضافة العقار: " +
+      "تعذر حذف العقار: " +
       error.message
     );
 
     return;
   }
 
-  const newProperty = {
 
-    ...data,
+  showToast(
+    "تم حذف العقار ✅"
+  );
 
-    name: data.title,
 
-    image: data.image_url,
+  await loadPropertiesFromSupabase();
 
-    favorite: false
-
-  };
-properties = [
-  newProperty,
-  ...properties.filter(p => p.id !== newProperty.id)
-];
-
-currentProperties = [...properties];
-
-renderProperties(currentProperties);
-
-  document.getElementById("propertyName").value = "";
-  document.getElementById("propertyLocation").value = "";
-  document.getElementById("propertyPrice").value = "";
-  document.getElementById("propertyImage").value = "";
-
-  showToast("تم حفظ العقار والصورة بنجاح ✅");
-
-  document.getElementById("properties")
-    .scrollIntoView({behavior:"smooth"});
 }
-function assistantAnswer(question){
-  let answer="";
 
-  if(question.includes("بيت")){
-    answer="ممتاز. استخدم البحث وحدد المنطقة والسعر المناسب لك، وسنضيف لاحقاً فلترة ذكية حسب ميزانيتك.";
-  }else if(question.includes("شقة")){
-    answer="لدينا شقق ضمن العقارات التجريبية حالياً، ويمكن لاحقاً ربطها بقاعدة بيانات حقيقية.";
-  }else if(question.includes("أرض")){
-    answer="يوجد قسم خاص بالأراضي، ويمكن البحث حسب المنطقة والمساحة والسعر.";
-  }else{
-    answer="يمكنني مساعدتك في البحث عن عقار مناسب للاستثمار.";
+
+/* =====================================================
+   تنظيف نموذج الإضافة
+===================================================== */
+
+function resetAddForm(){
+
+  document
+    .getElementById("propertyName")
+    .value = "";
+
+
+  document
+    .getElementById("propertyLocation")
+    .value = "";
+
+
+  document
+    .getElementById("propertyPrice")
+    .value = "";
+
+
+  document
+    .getElementById("propertyType")
+    .value = "للبيع";
+
+
+  document
+    .getElementById("propertyImage")
+    .value = "";
+
+
+  document
+    .getElementById("addTitle")
+    .innerText =
+    "أضف عقارك";
+
+
+  document
+    .getElementById("savePropertyButton")
+    .innerText =
+    "➕ إضافة العقار";
+
+
+  document
+    .getElementById("cancelEditButton")
+    .classList
+    .add("hidden");
+
+}
+
+
+/* =====================================================
+   تفاصيل العقار
+===================================================== */
+
+function openProperty(id){
+
+  const p =
+    properties.find(
+      property =>
+        String(property.id) ===
+        String(id)
+    );
+
+
+  if(!p){
+
+    showToast(
+      "لم يتم العثور على العقار"
+    );
+
+    return;
   }
+
+
+  currentOpenedProperty =
+    p;
+
+
+  document
+    .getElementById("modalImg")
+    .style.backgroundImage =
+    `url('${p.image}')`;
+
+
+  document
+    .getElementById("modalTitle")
+    .innerText =
+    p.name;
+
+
+  document
+    .getElementById("modalLocation")
+    .innerText =
+    "📍 " + p.location;
+
+
+  document
+    .getElementById("modalPrice")
+    .innerText =
+    p.price;
+
+
+  document
+    .getElementById("modalDetails")
+    .innerText =
+    p.details;
+
+
+  document
+    .getElementById("modal")
+    .style.display =
+    "block";
+
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("modal")
+    .style.display =
+    "none";
+
+}
+
+
+/* =====================================================
+   التواصل
+===================================================== */
+
+function contactOwner(){
+
+  showToast(
+    "ميزة التواصل المباشر سنربطها لاحقاً بالمعلن 📞"
+  );
+
+}
+
+
+/* =====================================================
+   البحث
+===================================================== */
+
+function searchProperties(){
+
+  const q =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  if(!q){
+
+    currentProperties =
+      [...properties];
+
+  }else{
+
+    currentProperties =
+      properties.filter(p =>
+
+        String(p.name)
+          .toLowerCase()
+          .includes(q)
+
+        ||
+
+        String(p.location)
+          .toLowerCase()
+          .includes(q)
+
+        ||
+
+        String(p.price)
+          .toLowerCase()
+          .includes(q)
+
+        ||
+
+        String(p.type)
+          .toLowerCase()
+          .includes(q)
+
+      );
+
+  }
+
+
+  renderProperties(
+    currentProperties
+  );
+
+
+  document
+    .getElementById("properties")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   الفلاتر
+===================================================== */
+
+function filterType(type){
+
+  currentProperties =
+    properties.filter(
+      p =>
+        String(p.type) ===
+        String(type)
+    );
+
+
+  renderProperties(
+    currentProperties
+  );
+
+
+  document
+    .getElementById("properties")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   عرض الكل
+===================================================== */
+
+function resetProperties(){
+
+  currentProperties =
+    [...properties];
+
+
+  renderProperties(
+    currentProperties
+  );
+
+}
+
+
+/* =====================================================
+   المفضلة
+===================================================== */
+
+function showFavorites(){
+
+  const favoriteIds =
+    getFavoriteIds()
+      .map(String);
+
+
+  const fav =
+    properties.filter(
+      p =>
+        favoriteIds.includes(
+          String(p.id)
+        )
+    );
+
+
+  if(!fav.length){
+
+    showToast(
+      "لا توجد عقارات في المفضلة ❤️"
+    );
+
+    return;
+  }
+
+
+  currentProperties =
+    fav;
+
+
+  renderProperties(
+    currentProperties
+  );
+
+
+  document
+    .getElementById("properties")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   المساعد
+===================================================== */
+
+function assistantAnswer(question){
+
+  let answer = "";
+
+
+  if(question === "بيت"){
+
+    answer =
+      "ممتاز 👍 ابحث عن المنطقة والسعر، وإرثا يعرض لك العقارات الموجودة.";
+
+  }else if(question === "شقة"){
+
+    answer =
+      "يمكنك البحث عن الشقق باستخدام اسم المنطقة أو كلمة شقة.";
+
+  }else if(question === "أرض"){
+
+    answer =
+      "قسم الأراضي موجود، ويمكنك استخدام البحث للعثور على الأرض المناسبة.";
+
+  }else{
+
+    answer =
+      "للاستثمار، ابحث حسب المنطقة والسعر ونوع العقار.";
+
+  }
+
 
   showToast(answer);
 
 }
 
-function showToast(message){
 
-  const toast=document.getElementById("toast");
+/* =====================================================
+   الحساب
+===================================================== */
 
-  toast.innerText=message;
-  toast.style.display="block";
+async function openAccount(){
 
-  clearTimeout(window.toastTimer);
+  document
+    .getElementById("accountModal")
+    .style.display =
+    "block";
 
-  window.toastTimer=setTimeout(()=>{
-    toast.style.display="none";
-  },3000);
+
+  await updateAccountUI();
 
 }
 
-document.getElementById("searchInput")
-  .addEventListener("keydown",function(e){
 
-    if(e.key==="Enter"){
-      searchProperties();
+function closeAccount(){
 
-    }
+  document
+    .getElementById("accountModal")
+    .style.display =
+    "none";
 
-  });
+}
 
-  const savedFavorites =
 
-  JSON.parse(localStorage.getItem("erthaFavorites") || "[]");
+async function updateAccountUI(){
 
-savedFavorites.forEach(saved => {
+  const {
+    data
+  } =
+    await erthaSupabase
+      .auth
+      .getSession();
 
-  const property = properties.find(p =>
 
-    p.name === saved.name &&
+  currentUser =
+    data.session
+      ?
+      data.session.user
+      :
+      null;
 
-    p.location === saved.location &&
 
-    p.price === saved.price
+  const status =
+    document.getElementById(
+      "accountStatus"
+    );
 
-  );
 
-  if(property){
+  const email =
+    document.getElementById(
+      "accountEmail"
+    );
 
-    property.favorite = saved.favorite;
+
+  const password =
+    document.getElementById(
+      "accountPassword"
+    );
+
+
+  const loginButton =
+    document.getElementById(
+      "loginButton"
+    );
+
+
+  const signupButton =
+    document.getElementById(
+      "signupButton"
+    );
+
+
+  const logoutButton =
+    document.getElementById(
+      "logoutButton"
+    );
+
+
+  if(currentUser){
+
+    status.innerText =
+      "🟢 مسجل دخول\n" +
+      currentUser.email;
+
+
+    email.style.display =
+      "none";
+
+
+    password.style.display =
+      "none";
+
+
+    loginButton.style.display =
+      "none";
+
+
+    signupButton.style.display =
+      "none";
+
+
+    logoutButton.style.display =
+      "block";
+
+  }else{
+
+    status.innerText =
+      "تسجيل الدخول إلى حساب إرثا";
+
+
+    email.style.display =
+      "block";
+
+
+    password.style.display =
+      "block";
+
+
+    loginButton.style.display =
+      "block";
+
+
+    signupButton.style.display =
+      "block";
+
+
+    logoutButton.style.display =
+      "none";
 
   }
 
-});
-renderProperties();
 
-</script> 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+  renderProperties(
+    currentProperties
+  );
+
+}
+
+
+/* =====================================================
+   إنشاء حساب
+===================================================== */
 
 async function signupUser(){
 
   const email =
-    document.getElementById("accountEmail").value.trim();
+    document
+      .getElementById("accountEmail")
+      .value
+      .trim();
+
 
   const password =
-    document.getElementById("accountPassword").value;
+    document
+      .getElementById("accountPassword")
+      .value;
+
 
   const message =
-    document.getElementById("accountMessage");
+    document
+      .getElementById("accountMessage");
+
 
   if(!email || !password){
 
@@ -1292,112 +2595,30 @@ async function signupUser(){
     return;
   }
 
-  const { error } =
-    await erthaSupabase.auth.signUp({
-      email: email,
-      password: password
-    });
 
-  if(error){
-
-    message.innerText = error.message;
-
-    return;
-  }
-
-  message.innerText =
-    "تم إنشاء الحساب بنجاح ✅";
-}
-
-
-async function loginUser(){
-
-  const email =
-    document.getElementById("accountEmail").value.trim();
-
-  const password =
-    document.getElementById("accountPassword").value;
-
-  const message =
-    document.getElementById("accountMessage");
-
-  if(!email || !password){
+  if(password.length < 6){
 
     message.innerText =
-      "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
 
     return;
   }
 
-  const { error } =
-    await erthaSupabase.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
 
-  if(error){
-
-    message.innerText = error.message;
-
-    return;
-  }
-
-  message.innerText =
-    "تم تسجيل الدخول بنجاح ✅";
-message.innerText =
-  "تم تسجيل الدخول بنجاح ✅";
-}
-</script>
-<script>
-const ERTHA_SUPABASE_URL = "https://ezpzqiovggovrisqrzer.supabase.co";
-
-const ERTHA_SUPABASE_KEY = "sb_publishable_EvK0fcjnX7_fwZYRmZcgYQ_Qru77ztu";
-
-const erthaSupabase = window.supabase.createClient(
-  ERTHA_SUPABASE_URL,
-  ERTHA_SUPABASE_KEY
-);
-  async function loadPropertiesFromSupabase(){
-
-  const { data, error } =
+  const {
+    data,
+    error
+  } =
     await erthaSupabase
-      .from("properties")
-      .select("*");
+      .auth
+      .signUp({
 
-  if(error){
+        email:email,
 
-    console.error("خطأ في تحميل العقارات:", error);
+        password:password
 
-    showToast("تعذر تحميل العقارات");
+      });
 
-    return;
-  }
-
-  properties = (data || []).map(property => ({
-
-    ...property,
-
-    name: property.title,
-
-    favorite: false
-
-  }));
-
-  currentProperties = [...properties];
-
-  renderProperties(currentProperties);
-}
-  loadPropertiesFromSupabase();
-</script>
-<script>
-
-async function logoutUser(){
-
-  const { error } =
-    await erthaSupabase.auth.signOut();
-
-  const message =
-    document.getElementById("accountMessage");
 
   if(error){
 
@@ -1405,23 +2626,226 @@ async function logoutUser(){
       error.message;
 
     return;
-  }  message.innerText =
-    "تم تسجيل الخروج بنجاح ✅";
+  }
+
+
+  if(data.session){
+
+    message.innerText =
+      "تم إنشاء الحساب وتسجيل الدخول بنجاح ✅";
+
+  }else{
+
+    message.innerText =
+      "تم إنشاء الحساب ✅ إذا طلب منك تأكيد البريد، افتح رسالة التأكيد.";
+
+  }
+
+
+  await updateAccountUI();
+
 }
 
-erthaSupabase.auth.getSession().then(({ data }) => {
 
-  if (data.session) {
+/* =====================================================
+   تسجيل الدخول
+===================================================== */
 
-    console.log(
-      "المستخدم مسجل دخول:",
-      data.session.user.email
+async function loginUser(){
+
+  const email =
+    document
+      .getElementById("accountEmail")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("accountPassword")
+      .value;
+
+
+  const message =
+    document
+      .getElementById("accountMessage");
+
+
+  if(!email || !password){
+
+    message.innerText =
+      "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await erthaSupabase
+      .auth
+      .signInWithPassword({
+
+        email:email,
+
+        password:password
+
+      });
+
+
+  if(error){
+
+    message.innerText =
+      error.message;
+
+    return;
+  }
+
+
+  message.innerText =
+    "تم تسجيل الدخول بنجاح ✅";
+
+
+  await updateAccountUI();
+
+
+  await loadPropertiesFromSupabase();
+
+}
+
+
+/* =====================================================
+   تسجيل الخروج
+===================================================== */
+
+async function logoutUser(){
+
+  const {
+    error
+  } =
+    await erthaSupabase
+      .auth
+      .signOut();
+
+
+  const message =
+    document
+      .getElementById("accountMessage");
+
+
+  if(error){
+
+    message.innerText =
+      error.message;
+
+    return;
+  }
+
+
+  currentUser =
+    null;
+
+
+  message.innerText =
+    "تم تسجيل الخروج بنجاح ✅";
+
+
+  await updateAccountUI();
+
+
+  await loadPropertiesFromSupabase();
+
+}
+
+
+/* =====================================================
+   Enter للبحث
+===================================================== */
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key === "Enter"){
+
+        searchProperties();
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   مراقبة حالة تسجيل الدخول
+===================================================== */
+
+erthaSupabase
+  .auth
+  .onAuthStateChange(
+    async (event, session) => {
+
+      currentUser =
+        session
+          ?
+          session.user
+          :
+          null;
+
+
+      renderProperties(
+        currentProperties
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   بدء التطبيق
+===================================================== */
+
+async function startErtha(){
+
+  try{
+
+    const {
+      data
+    } =
+      await erthaSupabase
+        .auth
+        .getSession();
+
+
+    currentUser =
+      data.session
+        ?
+        data.session.user
+        :
+        null;
+
+
+    await loadPropertiesFromSupabase();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "حدث خطأ في تشغيل إرثا"
     );
 
   }
 
-});
+}
+
+
+startErtha();
 
 </script>
+
 </body>
 </html>
